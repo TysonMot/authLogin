@@ -31,11 +31,15 @@ class Users {
        firebase.app.auth().signInWithEmailAndPassword(email,password).then(res => {
            if(res.user.emailVerified){
                console.log('email verified')
-               navigation.navigate('About', {
-                   itemId : res.user.uid
-               })
+               navigation.navigate('About')
+               localStorage.setItem('userid', res.user.uid)
            }else {
                console.log('please verify your email address')
+               res.user.sendEmailVerification().then(res => {
+                   console.log('we send you an email again, please verify your email')
+               }).catch(err => {
+                   console.log(err.message)
+               })
            }
        })
     }
@@ -53,25 +57,34 @@ class Users {
                 console.log(err)
             })
         }).catch(err => {
-            console.log(err)
+            console.log(err.message)
         })
     }
     
-    resetPassword(){
-        firebase.addCollection('').subscribe().then(res => {
-            
+    resetPassword(email){
+        firebase.app.auth().sendPasswordResetEmail(email).then(res => {
+            console.log('password reset')
+        }).catch(err => {
+            console.log(err.message)
         })
     }
     
-    users  = [
-        { id: 1, name : 'Tyssadsdaon', surname: 'Motlhabeng', img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg', dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-        { id: 2, name : 'Leah', surname: 'Motlhabeng',img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg',dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-        { id: 3, name : 'Maria', surname: 'Motlhabeng',img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg', dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-        { id: 4, name : 'Lethabo', surname: 'Motlhabeng',img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg', dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-        { id: 5, name : 'Matome', surname: 'Motlhabeng',img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg', dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-        { id: 6, name : 'Maropene', surname: 'Motlhabeng',img: 'https://randomwordgenerator.com/img/picture-generator/5fe3d7404e54b10ff3d8992cc12c30771037dbf85254784b72267cd1914c_640.jpg', dsc : 'A short story is a piece of prose fiction that typically can be read in one sitting and focuses on a self-contained incident or series of linked incidents, with the intent of evoking a single effect or mood.'},
-    ]
+    getLoggedData(id){
+        return firebase.ref(`/user/${id}`)
+    }
 
+    logOut(navigation){
+        firebase.app.auth().signOut().then( () => {
+            console.log('logged out')
+            localStorage.removeItem('userid')
+            navigation.navigate('About')
+        }).catch(err => {
+            console.log(err.message)
+        })
+    }
+    
+    
+    
 }
 
 export default new Users()
