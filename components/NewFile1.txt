@@ -1,0 +1,46 @@
+           <SafeAreaView style={styles.cover}>
+                    
+                <View>
+                <Text style={styles.heading} >
+                    Today's Task
+                </Text>
+                    <Text style={styles.headingRow}>
+                        My personal toDo list 
+                    </Text>
+                </View>
+                
+                <View style={styles.viewCover}>
+                 
+                    {
+                        users && users.length ? (
+                    
+                            <FlatList data={users} renderItem={renderUsers}
+                                      keyExtractor={(item) => item.key}
+                                      removeClippedSubviews={true}
+                                      onRightPress={() => alert('working press')}
+                                      />
+            
+                        ) : (
+                            <View style={styles.noData}>
+                                No data
+                            </View>
+                        )
+                    }
+                 
+                </View>
+                <View style={styles.createU}>
+                    <Button title={'Create A ToDo'} onPress={() => navigation.navigate('Adduser')}/>
+                </View>
+            </SafeAreaView>
+            
+            
+              <SafeAreaView>
+                        <Header>
+                            <View>
+                                <Button onPress = { () => navigation.goBack()} title={"back"}/>
+                            </View>
+                        </Header>
+                        <View style={styles.container}>
+                          
+                        </View>
+                    </SafeAreaView>
