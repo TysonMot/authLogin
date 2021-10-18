@@ -65,7 +65,7 @@ const About = ( navigation ) => {
                             <Text style={styles.texts}>
                                 Update BIO
                             </Text>
-                            <TextInput value={dsc} onChangeText={text => setDSC(text)} multiline={true} numberOfLines={5} style={styles.aboutText}  placeholder={'About me'} />
+                            <TextInput value={dsc} onChangeText={text => setDSC(text)} multiline={true} numberOfLines={5} style={styles.aboutTexts}  placeholder={'About me'} />
                         </>
                     ): (
                         <>
