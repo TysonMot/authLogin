@@ -10,6 +10,8 @@ const About = ( navigation ) => {
     const [name,setName ] = useState('')
     const [email,setEmail ] = useState()
     const  img  = 'https://www.seekpng.com/png/detail/428-4287240_no-avatar-user-circle-icon-png.png'
+    const [dsc, setDsc] = useState()
+    const [_dsc, setDSC] = useState()
 
     useEffect(() => {
         const id = localStorage.getItem('userid')
@@ -17,9 +19,16 @@ const About = ( navigation ) => {
             const data = snapshot.val()
             setName(data.name)
             setEmail(data.email)
+            setDsc(data.dsc)
         })
     })
     
+    const updateBIO = () => {
+        const id = localStorage.getItem('userid')
+        console.log(_dsc)
+        Users.updateBIO(id, _dsc )
+    }
+
     const logout = () => {
         Users.logOut(navigation)
     }
@@ -48,6 +57,32 @@ const About = ( navigation ) => {
                 <Text>
                      { email }
                 </Text>
+            </View>
+            <View style={styles.textContainer}>
+                {
+                    dsc ? (
+                        <>
+                            <Text style={styles.texts}>
+                                Update BIO
+                            </Text>
+                            <TextInput value={dsc} onChangeText={text => setDSC(text)} multiline={true} numberOfLines={5} style={styles.aboutText}  placeholder={'About me'} />
+                        </>
+                    ): (
+                        <>
+                            <Text style={styles.texts}>
+                                Write something about
+                            </Text>
+                            <TextInput onChangeText={text => setDSC(text)} multiline={true} numberOfLines={5} style={styles.aboutText}  placeholder={'About me'} />
+                        </>
+                    )
+                }
+            </View>
+            <View style={styles.textContainer}>
+                <Pressable style={styles.update} onPress={ updateBIO }>
+                    <Text style={styles.text}>
+                        Update profile
+                    </Text>
+                </Pressable>
             </View>
         </>
     )
@@ -91,6 +126,25 @@ const styles = new StyleSheet.create({
     userContainer : {
         textAlign: 'center',
         marginTop: 20
+    },
+    aboutText : {
+        backgroundColor: '#f5f5f5',
+        padding: 10
+    },
+    textContainer : {
+        padding: 10
+    },
+    update : {
+        backgroundColor:'#292929',
+        padding:15,
+        textAlign: "center"
+    },
+    text : {
+        color : 'white',
+        fontWeight: '900'
+    },
+    texts : {
+        paddingBottom: 10
     }
 })
 

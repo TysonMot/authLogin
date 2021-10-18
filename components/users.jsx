@@ -83,6 +83,15 @@ class Users {
         })
     }
     
+    updateBIO(ref, info) {
+        firebase.ref('/user').child(ref).update({
+            dsc : info
+        }).then(() => {
+            console.log('bio created')
+        }).catch(err => {
+            console.log(err.message)
+        })
+    }
     
     
 }
