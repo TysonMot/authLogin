@@ -25,8 +25,13 @@ const About = ( navigation ) => {
     
     const updateBIO = () => {
         const id = localStorage.getItem('userid')
-        console.log(_dsc)
-        Users.updateBIO(id, _dsc )
+        if(typeof _dsc  === 'undefined') {
+            setDSC(dsc)
+            console.log(_dsc)
+            Users.updateBIO(id, dsc )
+        }else {
+            Users.updateBIO(id, _dsc )
+        }
     }
 
     const logout = () => {
@@ -55,7 +60,7 @@ const About = ( navigation ) => {
                      { name }
                 </Text>
                 <Text>
-                     { email }
+                     { email } ,{ name }
                 </Text>
             </View>
             <View style={styles.textContainer}>
@@ -87,6 +92,7 @@ const About = ( navigation ) => {
         </>
     )
 }
+
 
 
 const styles = new StyleSheet.create({
