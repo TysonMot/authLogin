@@ -77,10 +77,15 @@ class Users {
         firebase.app.auth().signOut().then( () => {
             console.log('logged out')
             localStorage.removeItem('userid')
-            navigation.navigate('About')
+            navigation.goBack()
         }).catch(err => {
             console.log(err.message)
         })
+    }
+    
+    
+    GoogleLogin(){
+        firebase.app.auth().fetchSignInMethodsForEmail()
     }
     
     updateBIO(ref, info) {
